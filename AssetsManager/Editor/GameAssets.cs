@@ -10,7 +10,7 @@ using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using Object = System.Object;
 
-namespace UniTemplate.AssetsManager
+namespace AssetsManager
 {
     public interface IGameAssets
     {
