@@ -1,8 +1,0 @@
-﻿{
-  "name": "com.bow.assetsmanager",
-  "version": "1.0.0",
-  "displayName": "Assets Manager",
-  "description": "Reusable code for Unity.",
-  "unity": "2021.3",
-  "author": { "name": "Bow" }
-}
