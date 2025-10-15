@@ -1,17 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceLocations;
-using UnityEngine.ResourceManagement.ResourceProviders;
-using UnityEngine.SceneManagement;
-using Object = System.Object;
-
-namespace AssetsManager
+namespace AssetsManager.AssetsManager.Runtime
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using UnityEngine;
+    using UnityEngine.AddressableAssets;
+    using UnityEngine.ResourceManagement.AsyncOperations;
+    using UnityEngine.ResourceManagement.ResourceLocations;
+    using UnityEngine.ResourceManagement.ResourceProviders;
+    using UnityEngine.SceneManagement;
+    using Object = System.Object;
+
     public interface IGameAssets
     {
         /// <summary>
@@ -152,22 +152,22 @@ namespace AssetsManager
                     var assetHandles   = new List<AsyncOperationHandle<Object>>();
                     int completedCount = 0;
                     int totalCount     = locations.Count;
-                
+
                     if (totalCount == 0)
                     {
                         tcs.SetResult(new List<AsyncOperationHandle<Object>>());
                         return;
                     }
-                
+
                     foreach (var location in locations)
                     {
                         var assetHandle = Addressables.LoadAssetAsync<Object>(location);
                         assetHandles.Add(assetHandle);
-                    
+
                         assetHandle.Completed += (assetOp) =>
                         {
                             completedCount++;
-                        
+
                             if (completedCount == totalCount)
                             {
                                 tcs.SetResult(assetHandles);
@@ -184,11 +184,11 @@ namespace AssetsManager
 
             return this.ConvertTaskToAsyncOperationHandle(tcs.Task);
         }
-        
+
         private AsyncOperationHandle<List<AsyncOperationHandle<Object>>> ConvertTaskToAsyncOperationHandle(Task<List<AsyncOperationHandle<Object>>> task)
         {
             var handle = new AsyncOperationHandle<List<AsyncOperationHandle<Object>>>();
-        
+
             task.ContinueWith(t =>
             {
                 if (t.IsCompletedSuccessfully)
@@ -198,10 +198,10 @@ namespace AssetsManager
                         ?.SetValue(handle, this.CreateCompletedOperation(t.Result));
                 }
             });
-        
+
             return handle;
         }
-        
+
         private object CreateCompletedOperation(List<AsyncOperationHandle<Object>> result)
         {
             return result;
